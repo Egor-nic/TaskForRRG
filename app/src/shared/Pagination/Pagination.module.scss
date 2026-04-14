@@ -1,15 +1,33 @@
 .pagination {
   display: flex;
-  gap: 8px;
+  gap: 2px;
   justify-content: center;
   margin-top: 20px;
+
+  @media (min-width: 425px) {
+    gap: 4px;
+  }
+
+  @media (min-width: 768px) {
+    gap: 8px;
+  }
 }
 
 .pagination button {
-  padding: 8px 12px;
+  padding: 2px 4px;
+
   border: 1px solid #ccc;
   background: white;
   cursor: pointer;
+
+  @media (min-width: 425px) {
+    padding: 4px 6px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 8px 12px;
+
+  }
 }
 
 .pagination button.active {

@@ -1,13 +1,20 @@
 import styles from "./Post.module.scss";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PostItem from "../../shared/PostItem/PostItem";
 import { useGetPost } from "./api/useGetPost";
 import { BackButton } from "../../shared/BackButton/BackButton";
 import Loader from "../../shared/Loader/Loader";
 
+type TPostLocationState = {
+  fromPage?: number;
+};
+
 export default function PostPage() {
 
   const { id } = useParams();
+  const location = useLocation();
+  const locationState = location.state as TPostLocationState | null;
+  const fallbackPage = locationState?.fromPage ?? 1;
   const { post, isLoading, error } = useGetPost(id);
 
   return (
@@ -15,7 +22,7 @@ export default function PostPage() {
     <main>
       <header className={styles.header}>
         <nav>
-          <BackButton />
+          <BackButton fallbackPath={`/?page=${fallbackPage}`} />
         </nav>
       </header>
 
@@ -32,7 +39,7 @@ export default function PostPage() {
             title={post.title}
             id={post.id}
             className={styles.postItem}
-            isHoveEffect={false}
+            isHoverEffect={false}
           />
         }
       </div>

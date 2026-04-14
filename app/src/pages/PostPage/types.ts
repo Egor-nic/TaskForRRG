@@ -7,5 +7,5 @@ export interface TPost {
 
 export interface TPostPageProps extends TPost {
   className?: string;
-  isHoveEffect?: boolean;
+  isHoverEffect?: boolean;
 };

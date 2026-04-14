@@ -5,6 +5,7 @@ import PostItem from "../../shared/PostItem/PostItem";
 import Pagination from "../../shared/Pagination/Pagination";
 import classNames from "classnames";
 import Loader from "../../shared/Loader/Loader";
+import { POSTS_PER_PAGE } from "../../libs/api";
 
 export default function MainPage() {
 
@@ -32,7 +33,7 @@ export default function MainPage() {
 
         <Pagination
           totalItems={totalPosts}
-          itemsPerPage={10}
+          itemsPerPage={POSTS_PER_PAGE}
           currentPage={currentPage}
           onPageChange={handlePageChange}
           className={styles.pagination}
@@ -47,9 +48,13 @@ export default function MainPage() {
 
         {posts.map(post =>
 
-          <Link to={`/post/${post.id}`} className={`${styles.postLink}`}>
+          <Link
+            key={post.id}
+            to={`/post/${post.id}`}
+            state={{ fromPage: currentPage }}
+            className={styles.postLink}
+          >
             <PostItem
-              key={post.id}
               body={post.body}
               userId={post.userId}
               title={post.title}

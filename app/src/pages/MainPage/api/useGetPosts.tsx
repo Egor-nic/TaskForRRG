@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetcher } from '../../../libs/fetcher';
 import { TPost } from '../../PostPage/types';
+import { getPostsUrl } from '../../../libs/api';
 
 
 const cache = new Map<string, { data: TPost[], total: number }>(); // В идиале использовать библиотеку SWR или подобные, но по условию стека ее нет.
@@ -12,8 +13,9 @@ export const useGetPosts = (page: number) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const url = `posts?_limit=10&_page=${page}`;
+    const url = getPostsUrl(page);
     let isCancelled = false; // Избегаем гонки проммисов
+    const controller = new AbortController();
 
     if (cache.has(url)) {
       const cached = cache.get(url)!;
@@ -25,7 +27,7 @@ export const useGetPosts = (page: number) => {
       const fetchPosts = async () => {
         setIsLoading(true);
         try {
-          const response = await fetcher({ url });
+          const response = await fetcher({ url, signal: controller.signal });
           const totalPageHeader = response.headers.get('x-total-count'); // Получаю количество всех страниц
           const data: TPost[] = await response.json();
           const total = totalPageHeader ? parseInt(totalPageHeader, 10) : 0;
@@ -50,7 +52,10 @@ export const useGetPosts = (page: number) => {
       fetchPosts();
     }
 
-    return () => { isCancelled = true; };
+    return () => {
+      isCancelled = true;
+      controller.abort();
+    };
   }, [page]);
 
   return { posts, totalPosts, isLoading, error };

@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/TaskForRRG/static/css/main.3b279fa0.css",
+    "main.css": "/TaskForRRG/static/css/main.e7150661.css",
     "main.js": "/TaskForRRG/static/js/main.56f262cf.js",
     "index.html": "/TaskForRRG/index.html",
-    "main.3b279fa0.css.map": "/TaskForRRG/static/css/main.3b279fa0.css.map",
+    "main.e7150661.css.map": "/TaskForRRG/static/css/main.e7150661.css.map",
     "main.56f262cf.js.map": "/TaskForRRG/static/js/main.56f262cf.js.map"
   },
   "entrypoints": [
-    "static/css/main.3b279fa0.css",
+    "static/css/main.e7150661.css",
     "static/js/main.56f262cf.js"
   ]
 }

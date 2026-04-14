@@ -1,3 +1,5 @@
+//Для переменных лучше использовать ENV, в рамках данного проекта использовал отдельный файл.
+
 export const API_BASE_URL = "https://jsonplaceholder.typicode.com/";
 export const POSTS_ENDPOINT = "posts";
 export const POSTS_PER_PAGE = 10;

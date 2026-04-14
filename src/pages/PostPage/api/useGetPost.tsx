@@ -15,7 +15,7 @@ export const useGetPost = (id: string | undefined) => {
       const fetchPosts = async () => {
         try {
           setIsLoading(true);
-          const response = await fetcher({url: `posts/${id}`});
+          const response = await fetcher({ url: `posts/${id}` });
 
           if (!response.ok) {
             throw new Error('Ошибка при загрузке данных');
@@ -34,7 +34,7 @@ export const useGetPost = (id: string | undefined) => {
 
       fetchPosts();
     } else {
-        
+
     }
   }, [id]);
 

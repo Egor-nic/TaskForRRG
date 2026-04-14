@@ -1,11 +1,11 @@
 .main {
-position: relative;
+  position: relative;
+
   .postLink {
     text-decoration: none;
     color: inherit;
     display: flex;
     cursor: pointer;
-
   }
 
   .pagination {
@@ -17,13 +17,10 @@ position: relative;
     margin-bottom: 12px;
   }
 
-
   .wrapper {
-   
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
-    animation: fadeIn 1.5s ease-in-out;
 
     @media (min-width: 768px) {
       grid-template-columns: 1fr 1fr;
@@ -37,22 +34,9 @@ position: relative;
 
   }
 
-.loader {
+  .loader {
     position: absolute;
     top: 50%;
     right: 50%;
-}
-
-}
-
-@keyframes fadeIn {
-    from {
-      opacity: 0;
-    //   transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-    //   transform: translateY(0);
-    }
   }
-
+}

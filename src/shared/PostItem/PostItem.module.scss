@@ -8,6 +8,7 @@
   border-radius: 8px;
   background-color: rgba(198, 198, 198, 0.292);
   transition: background-color .3s ease-out;
+  animation: fadeIn 1.5s ease-in-out;
 
   &:not(.noHover):hover {
     background-color: rgb(198, 198, 198);
@@ -30,5 +31,16 @@
     display: flex;
     justify-content: space-between;
     margin-top: 8px;
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

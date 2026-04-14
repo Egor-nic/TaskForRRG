@@ -42,7 +42,7 @@ export default function MainPage() {
       {isLoading && <Loader />}
 
       <div key={currentPage} className={classNames(styles.wrapper, {
-          [styles.visiblePosts]: posts.length > 0,
+        [styles.visiblePosts]: posts.length > 0,
       })}>
 
         {posts.map(post =>

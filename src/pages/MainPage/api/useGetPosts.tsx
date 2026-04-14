@@ -3,37 +3,54 @@ import { fetcher } from '../../../libs/fetcher';
 import { TPost } from '../../PostPage/types';
 
 
+const cache = new Map<string, { data: TPost[], total: number }>(); // В идиале использовать библиотеку SWR или подобные, но по условию стека ее нет.
+
 export const useGetPosts = (page: number) => {
   const [posts, setPosts] = useState<TPost[]>([]);
+  const [totalPosts, setTotalPosts] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [totalPosts, setTotalPosts] = useState(0);
-  
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        // setPosts([]);
+    const url = `posts?_limit=10&_page=${page}`;
+    let isCancelled = false; // Избегаем гонки проммисов
+
+    if (cache.has(url)) {
+      const cached = cache.get(url)!;
+      setPosts(cached.data);
+      setTotalPosts(cached.total); // Сохраняю количество страниц для рендора пагинации при возврате с поста. 
+      setIsLoading(false);
+      setError(null);
+    } else {
+      const fetchPosts = async () => {
         setIsLoading(true);
-        // _limit Можно утсановить через пропс для более гипокого использования, но в рамках текущей задачи
-        // параметр установлен согласно условию
-        const response = await fetcher({url: `posts?_limit=10&_page=${page}`});
+        try {
+          const response = await fetcher({ url });
+          const totalPageHeader = response.headers.get('x-total-count'); // Получаю количество всех страниц
+          const data: TPost[] = await response.json();
+          const total = totalPageHeader ? parseInt(totalPageHeader, 10) : 0;
 
-        const totalPosts = response.headers.get('x-total-count');
-        const data: TPost[] = await response.json();
-        setPosts(data);
-        setError(null);
-
-        if (totalPosts) {
-          setTotalPosts(parseInt(totalPosts, 10));
+          if (!isCancelled) {
+            cache.set(url, { data, total });
+            setPosts(data);
+            if (total) {
+              setTotalPosts(total)
+            };
+            setError(null);
+          }
+        } catch (err) {
+          if (!isCancelled) {
+            setError(err instanceof Error ? err.message : 'Ошибка');
+          }
+        } finally {
+          if (!isCancelled) setIsLoading(false);
         }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      };
 
-    fetchPosts();
+      fetchPosts();
+    }
+
+    return () => { isCancelled = true; };
   }, [page]);
 
   return { posts, totalPosts, isLoading, error };

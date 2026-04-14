@@ -1,5 +1,5 @@
 import styles from "./Post.module.scss";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PostItem from "../../shared/PostItem/PostItem";
 import { useGetPost } from "./api/useGetPost";
 import { BackButton } from "../../shared/BackButton/BackButton";
@@ -8,13 +8,11 @@ import Loader from "../../shared/Loader/Loader";
 export default function PostPage() {
 
   const { id } = useParams();
-
   const { post, isLoading, error } = useGetPost(id);
 
   return (
 
     <main>
-
       <header className={styles.header}>
         <nav>
           <BackButton />
@@ -40,4 +38,4 @@ export default function PostPage() {
       </div>
     </main>
   )
-}
+};

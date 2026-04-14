@@ -44,7 +44,6 @@ export default function MainPage() {
       <div key={currentPage} className={classNames(styles.wrapper, {
           [styles.visiblePosts]: posts.length > 0,
       })}>
-        
 
         {posts.map(post =>
 
